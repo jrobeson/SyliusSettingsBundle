@@ -19,7 +19,7 @@ use Sylius\Bundle\SettingsBundle\Schema\SettingsBuilder;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Exception\ValidatorException;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Settings manager.
