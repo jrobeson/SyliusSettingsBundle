@@ -29,4 +29,31 @@ interface SettingsBuilderInterface extends OptionsResolverInterface
      * @param ParameterTransformerInterface $transformer
      */
     public function setTransformer($parameterName, ParameterTransformerInterface $transformer);
+
+    // previously from OptionsResolverInterface
+
+    /**
+     * Sets default option values.
+     *
+     * The options can either be values of any types or closures that
+     * evaluate the option value lazily. These closures must have one
+     * of the following signatures:
+     *
+     * <code>
+     * function (Options $options)
+     * function (Options $options, $value)
+     * </code>
+     *
+     * The second parameter passed to the closure is the previously
+     * set default value, in case you are overwriting an existing
+     * default value.
+     *
+     * The closures should return the lazily created option value.
+     *
+     * @param array $defaultValues A list of option names as keys and default
+     *                             values or closures as values.
+     *
+     * @return OptionsResolverInterface The resolver instance
+     */
+    public function setDefaults(array $defaultValues);
 }
