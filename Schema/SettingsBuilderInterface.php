@@ -12,12 +12,11 @@
 namespace Sylius\Bundle\SettingsBundle\Schema;
 
 use Sylius\Bundle\SettingsBundle\Transformer\ParameterTransformerInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * @author Paweł Jędrzejewski <pawel@sylius.org>
  */
-interface SettingsBuilderInterface extends OptionsResolverInterface
+interface SettingsBuilderInterface
 {
     /**
      * @return ParameterTransformerInterface[]
