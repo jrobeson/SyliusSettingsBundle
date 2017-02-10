@@ -12,6 +12,7 @@
 namespace Sylius\Bundle\SettingsBundle\Schema;
 
 use Sylius\Bundle\SettingsBundle\Transformer\ParameterTransformerInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Paweł Jędrzejewski <pawel@sylius.org>
@@ -52,7 +53,24 @@ interface SettingsBuilderInterface
      * @param array $defaultValues A list of option names as keys and default
      *                             values or closures as values.
      *
-     * @return OptionsResolverInterface The resolver instance
+     * @return OptionsResolver The resolver instance
      */
     public function setDefaults(array $defaultValues);
+
+    /**
+     * Sets allowed types for an option.
+     *
+     * Any type for which a corresponding is_<type>() function exists is
+     * acceptable. Additionally, fully-qualified class or interface names may
+     * be passed.
+     *
+     * @param string          $option       The option name
+     * @param string|string[] $allowedTypes One or more accepted types
+     *
+     * @return $this
+     *
+     * @throws UndefinedOptionsException If the option is undefined
+     * @throws AccessException           If called from a lazy option or normalizer
+     */
+    public function setAllowedTypes($option, $allowedTypes);
 }
