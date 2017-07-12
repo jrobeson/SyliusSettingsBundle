@@ -12,6 +12,7 @@
 namespace Sylius\Bundle\SettingsBundle\Schema;
 
 use Sylius\Bundle\SettingsBundle\Transformer\ParameterTransformerInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Paweł Jędrzejewski <pawel@sylius.org>
@@ -52,7 +53,7 @@ interface SettingsBuilderInterface
      * @param array $defaultValues A list of option names as keys and default
      *                             values or closures as values.
      *
-     * @return OptionsResolver The resolver instance
+     * @return OptionsResolver
      */
     public function setDefaults(array $defaultValues);
 }
