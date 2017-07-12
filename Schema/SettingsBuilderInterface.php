@@ -52,7 +52,7 @@ interface SettingsBuilderInterface
      * @param array $defaultValues A list of option names as keys and default
      *                             values or closures as values.
      *
-     * @return OptionsResolverInterface The resolver instance
+     * @return OptionsResolver The resolver instance
      */
     public function setDefaults(array $defaultValues);
 }
