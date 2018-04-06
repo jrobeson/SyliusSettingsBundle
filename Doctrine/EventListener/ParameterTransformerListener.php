@@ -18,7 +18,7 @@ use Sylius\Bundle\SettingsBundle\Model\SettingsInterface;
 use Sylius\Bundle\SettingsBundle\Schema\SchemaInterface;
 use Sylius\Bundle\SettingsBundle\Schema\SettingsBuilder;
 use Sylius\Bundle\SettingsBundle\Transformer\ParameterTransformerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use \Sylius\Component\Registry\ServiceRegistry;
 
 /**
  * @author Steffen Brem <steffenbrem@gmail.com>
@@ -28,20 +28,16 @@ final class ParameterTransformerListener
     /**
      * @var ContainerInterface
      */
-    private $container;
+    private $registry;
 
     /**
      * @var array
      */
     private $parametersMap = [];
 
-    /**
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ServiceRegistry $registry)
     {
-        // Circular reference detected for service "doctrine.dbal.default_connection", path: "doctrine.dbal.default_connection".
-        $this->container = $container;
+        $this->registry = $registry;
     }
 
     /**
@@ -131,10 +127,8 @@ final class ParameterTransformerListener
      */
     protected function getTransformers(SettingsInterface $settings)
     {
-        $registry = $this->container->get('sylius.registry.settings_schema');
-
         /** @var SchemaInterface $schema */
-        $schema = $registry->get($settings->getSchemaAlias());
+        $schema = $this->registry->get($settings->getSchemaAlias());
 
         $settingsBuilder = new SettingsBuilder();
         $schema->buildSettings($settingsBuilder);
