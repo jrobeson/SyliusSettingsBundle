@@ -26,6 +26,12 @@ use Symfony\Component\Validator\Exception\ValidatorException;
  */
 class SettingsController extends FOSRestController
 {
+    /** @var SettingsManagerInterface */
+    private $settingsManager;
+
+    /** @var SettingsFormFactoryInterface */
+    private $settingsFormFactory;
+
     /**
      * @param Request $request
      *
@@ -37,7 +43,7 @@ class SettingsController extends FOSRestController
 
         $this->isGrantedOr403($schemaAlias);
 
-        $settings = $this->getSettingsManager()->load($schemaAlias);
+        $settings = $this->settingManager->load($schemaAlias);
 
         $view = $this
             ->view()
@@ -58,20 +64,19 @@ class SettingsController extends FOSRestController
 
         $this->isGrantedOr403($schemaAlias);
 
-        $settingsManager = $this->getSettingsManager();
-        $settings = $settingsManager->load($schemaAlias);
+        $settings = $this->settingsManager->load($schemaAlias);
 
         $isApiRequest = $this->isApiRequest($request);
 
         $form = $this
-            ->getSettingsFormFactory()
+            ->settingsFormFactory
             ->create($schemaAlias, $settings, $isApiRequest ? ['csrf_protection' => false] : [])
         ;
 
         if ($form->handleRequest($request)->isValid()) {
             $messageType = 'success';
             try {
-                $settingsManager->save($settings);
+                $this->settingsManager->save($settings);
                 $message = $this->getTranslator()->trans('sylius.settings.update', [], 'flashes');
             } catch (ValidatorException $exception) {
                 $message = $this->getTranslator()->trans($exception->getMessage(), [], 'validators');
@@ -95,20 +100,14 @@ class SettingsController extends FOSRestController
         ]);
     }
 
-    /**
-     * @return SettingsManagerInterface
-     */
-    protected function getSettingsManager()
+    public function setSettingsManager(SettingsManagerInterface $settingsManager)
     {
-        return $this->get('sylius.settings_manager');
+        $this->settingsManager = $settingsManager;
     }
 
-    /**
-     * @return SettingsFormFactoryInterface
-     */
-    protected function getSettingsFormFactory()
+    public function setSettingsFormFactory(SettingsFormFactoryInterface $settingsFormFactory)
     {
-        return $this->get('sylius.form_factory.settings');
+        $this->settingsFormFactory = $settingsFormFactory;
     }
 
     /**

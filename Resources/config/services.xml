@@ -17,6 +17,14 @@
             <call method="setContainer">
                 <argument type="service" id="service_container" />
             </call>
+            <call method="setSettingsManager">
+                <argument type="service" id="sylius.settings_manager" />
+            </call>
+            <call method="setSettingsFormFactory">
+                <argument type="service" id="sylius.form_factory.settings" />
+            </call>
+
+            <tag name="controller.service_arguments" />
         </service>
 
         <service id="sylius.form_factory.settings" class="Sylius\Bundle\SettingsBundle\Form\Factory\SettingsFormFactory">
